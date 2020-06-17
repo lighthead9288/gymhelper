@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="trainingProgram"
+            type="com.example.gymhelper.model.TrainingProgramWithDetails"/>
+        <variable
+            name="programListClickListener"
+            type="com.example.gymhelper.adapters.ProgramListClickListener" />
+        <variable
+            name="deleteProgramClickListener"
+            type="com.example.gymhelper.adapters.DeleteProgramClickListener" />
+        <variable
+            name="isProgramChecked"
+            type="Boolean" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5sp"
+    android:paddingBottom="5sp"
+    android:onClick="@{() -> programListClickListener.onClick(trainingProgram)}"
+    >
+
+    <TextView
+        android:id="@+id/trainingProgramTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
+        tools:text="@{trainingProgram.trainingProgram.name}" />
+
+    <ImageView
+        android:id="@+id/isTrainingProgramCheckedIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tick_32"
+        android:layout_marginEnd="5sp"
+        android:visibility="@{isProgramChecked?View.VISIBLE:View.GONE}"
+        app:layout_constraintEnd_toStartOf="@+id/deleteProgramIb"
+        app:layout_constraintTop_toTopOf="@+id/deleteProgramIb" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteProgramIb"
+        android:background="@null"
+        android:src="@drawable/trash"
+        android:layout_marginEnd="10sp"
+        android:layout_marginTop="5sp"
+        android:onClick="@{() -> deleteProgramClickListener.onClick(trainingProgram)}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/trainingProgramTv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

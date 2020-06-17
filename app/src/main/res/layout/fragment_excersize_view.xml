@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="excersizeViewViewModel"
+            type="com.example.gymhelper.viewmodel.ExcersizeViewViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="true"
+                tools:context=".fragments.ExcersizeViewFragment">
+
+                <TextView
+                    android:id="@+id/exNameTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20sp"
+                    android:text="@{excersizeViewViewModel.excersize.excersize.name}"
+                    android:textAppearance="@style/TextAppearance.Title"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+                    app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/exParamsTl"
+                    android:layout_marginTop="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/exNameTv"
+                    >
+                    <TableRow>
+                        <TextView
+                            android:id="@+id/exGroupTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5sp"
+                            android:paddingTop="5sp"
+                            android:paddingStart="5sp"
+                            android:paddingEnd="5sp"
+                            android:background="@drawable/excersize_params_cell_shape"
+                            android:text="@string/groupLabel" />
+                        <TextView
+                            android:id="@+id/exGroupNameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5sp"
+                            android:paddingTop="5sp"
+                            android:paddingStart="5sp"
+                            android:paddingEnd="5sp"
+                            android:background="@drawable/excersize_params_cell_shape"
+                            android:text="@{excersizeViewViewModel.excersize.excersize.group}" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:id="@+id/exSubGroupTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5sp"
+                            android:paddingTop="5sp"
+                            android:paddingStart="5sp"
+                            android:paddingEnd="5sp"
+                            android:background="@drawable/excersize_params_cell_shape"
+                            android:text="@string/subgroup" />
+                        <TextView
+                            android:id="@+id/exSubgroupNameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5sp"
+                            android:paddingTop="5sp"
+                            android:paddingStart="5sp"
+                            android:paddingEnd="5sp"
+                            android:background="@drawable/excersize_params_cell_shape"
+                            android:text="@{excersizeViewViewModel.excersize.excersize.subgroup}" />
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:id="@+id/exLevelTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5sp"
+                            android:paddingTop="5sp"
+                            android:paddingStart="5sp"
+                            android:paddingEnd="5sp"
+                            android:background="@drawable/excersize_params_cell_shape"
+                            android:text="@string/level" />
+                        <TextView
+                            android:id="@+id/exLevelNameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5sp"
+                            android:paddingTop="5sp"
+                            android:paddingStart="5sp"
+                            android:paddingEnd="5sp"
+                            android:background="@drawable/excersize_params_cell_shape"
+                            android:text="@{excersizeViewViewModel.excersize.excersize.level}" />
+                    </TableRow>
+                </TableLayout>
+
+                <TextView
+                    android:id="@+id/exDescriptionTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:fontFamily="@font/abeezee_italic"
+                    android:text="@{excersizeViewViewModel.excersize.excersize.description}"
+                    app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+                    app:layout_constraintStart_toStartOf="@+id/start_guideline"
+
+                    app:layout_constraintTop_toBottomOf="@+id/exParamsTl" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/photosRv"
+                    android:layout_marginTop="10sp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    app:listData="@{excersizeViewViewModel.photos}"
+                    app:layout_constraintTop_toBottomOf="@+id/exDescriptionTv"
+                    app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+                    app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                    />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/start_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="15dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/end_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="15dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10sp"
+
+            >
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/youtubeFb"
+            app:maxImageSize="70sp"
+            android:layout_margin="10sp"
+
+            app:srcCompat="@drawable/youtube" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/excersizeVariantsFb"
+            android:layout_margin="10sp"
+            app:maxImageSize="70sp"
+            app:srcCompat="@drawable/strength" />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

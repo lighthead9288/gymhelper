@@ -1,0 +1,54 @@
+[
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_profile_edit.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/fragment_profile_edit.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_profiles_list.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/fragment_profiles_list.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/excersize_variants_list_item.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/excersize_variants_list_item.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_excersizes_list.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/fragment_excersizes_list.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_programs_list.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/fragment_programs_list.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_program_view.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/fragment_program_view.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_excersize_view.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/fragment_excersize_view.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/programs_list_item.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/programs_list_item.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/photo_item.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/photo_item.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/profiles_list_item.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/profiles_list_item.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_program_edit.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/fragment_program_edit.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_excersize_variants.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/fragment_excersize_variants.xml"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_main.xml",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/activity_main.xml"
+    }
+]

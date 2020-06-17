@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="profileEditViewModel"
+            type="com.example.gymhelper.viewmodel.ProfileEditViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".fragments.ProfileEditFragment">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/assignCurProfileBtn"
+            android:text="@string/assignCurTrainingProfile"
+            android:background="@drawable/assign_current_button_shape"
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="5sp"
+            android:layout_marginBottom="5sp"
+            android:layout_marginTop="5sp"
+            android:onClick="@{() -> profileEditViewModel.assignCurTrainingProfile()}"
+            android:enabled="@{profileEditViewModel.isCurTrainingProfileSelected}"
+            />
+
+        <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/excersizesListLv"
+            />
+
+    </LinearLayout>
+</layout>

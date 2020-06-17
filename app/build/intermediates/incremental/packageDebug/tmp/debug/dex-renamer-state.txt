@@ -1,0 +1,4 @@
+#Wed Jun 17 15:13:43 MSK 2020
+base.0=/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/dex/debug/out/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

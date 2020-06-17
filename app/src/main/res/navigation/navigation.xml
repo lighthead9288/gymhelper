@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/programViewFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/programViewFragment"
+        android:name="com.example.gymhelper.fragments.ProgramViewFragment"
+        android:label="@string/fragment_program_view"
+        tools:layout="@layout/fragment_program_view">
+        <action
+            android:id="@+id/action_programViewFragment_to_programsListFragment"
+            app:destination="@id/programsListFragment" />
+        <action
+            android:id="@+id/action_programViewFragment_to_profilesListFragment"
+            app:destination="@id/profilesListFragment" />
+        <action
+            android:id="@+id/action_programViewFragment_to_excersizeViewFragment"
+            app:destination="@id/excersizeViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profilesListFragment"
+        android:name="com.example.gymhelper.fragments.ProfilesListFragment"
+        android:label="@string/fragment_profiles_list"
+        tools:layout="@layout/fragment_profiles_list">
+        <action
+            android:id="@+id/action_profilesListFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/programEditFragment"
+        android:name="com.example.gymhelper.fragments.ProgramEditFragment"
+        android:label="@string/fragment_program_edit"
+        tools:layout="@layout/fragment_program_edit">
+        <action
+            android:id="@+id/action_programEditFragment_to_excersizesListFragment"
+            app:destination="@id/excersizesListFragment" />
+        <argument
+            android:name="trainingProgramId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/excersizesListFragment"
+        android:name="com.example.gymhelper.fragments.ExcersizesListFragment"
+        android:label="@string/fragment_excersizes_list"
+        tools:layout="@layout/fragment_excersizes_list">
+        <action
+            android:id="@+id/action_excersizesListFragment_to_excersizeViewFragment"
+            app:destination="@id/excersizeViewFragment" />
+        <argument
+            android:name="curDayExcersizes"
+            app:argType="com.example.gymhelper.db.Excersize[]" />
+        <argument
+            android:name="trainingDayId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/excersizeViewFragment"
+        android:name="com.example.gymhelper.fragments.ExcersizeViewFragment"
+        android:label="@string/fragment_excersize_view"
+        tools:layout="@layout/fragment_excersize_view">
+        <argument
+            android:name="excersizeId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_excersizeViewFragment_to_excersizeVariantsFragment"
+            app:destination="@id/excersizeVariantsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/programsListFragment"
+        android:name="com.example.gymhelper.fragments.ProgramsListFragment"
+        android:label="@string/fragment_programs_list"
+        tools:layout="@layout/fragment_programs_list">
+        <action
+            android:id="@+id/action_programsListFragment_to_programEditFragment"
+            app:destination="@id/programEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.example.gymhelper.fragments.ProfileEditFragment"
+        android:label="@string/fragment_profile_edit"
+        tools:layout="@layout/fragment_profile_edit">
+        <argument
+            android:name="trainingProfileId"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_profileEditFragment_to_excersizeViewFragment"
+            app:destination="@id/excersizeViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/excersizeVariantsFragment"
+        android:name="com.example.gymhelper.fragments.ExcersizeVariantsFragment"
+        android:label="@string/ExcersizeVariantsFragment">
+        <action
+            android:id="@+id/action_excersizeVariantsFragment_to_excersizeViewFragment"
+            app:destination="@id/excersizeViewFragment" />
+        <argument
+            android:name="excersizeId"
+            app:argType="long" />
+    </fragment>
+</navigation>
