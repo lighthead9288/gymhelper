@@ -6,6 +6,8 @@ import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Long;
 import java.lang.Override;
@@ -14,15 +16,15 @@ import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class TrainingProfilesExcersizesDao_Impl implements TrainingProfilesExcersizesDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfTrainingProfileExcersize;
+  private final EntityInsertionAdapter<TrainingProfileExcersize> __insertionAdapterOfTrainingProfileExcersize;
 
-  private final EntityDeletionOrUpdateAdapter __deletionAdapterOfTrainingProfileExcersize;
+  private final EntityDeletionOrUpdateAdapter<TrainingProfileExcersize> __deletionAdapterOfTrainingProfileExcersize;
 
-  private final EntityDeletionOrUpdateAdapter __updateAdapterOfTrainingProfileExcersize;
+  private final EntityDeletionOrUpdateAdapter<TrainingProfileExcersize> __updateAdapterOfTrainingProfileExcersize;
 
   private final SharedSQLiteStatement __preparedStmtOfDeleteByTrainingProfileId;
 
@@ -31,7 +33,7 @@ public final class TrainingProfilesExcersizesDao_Impl implements TrainingProfile
     this.__insertionAdapterOfTrainingProfileExcersize = new EntityInsertionAdapter<TrainingProfileExcersize>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `TrainingProfilesExcersizes`(`Id`,`TrainingProfileId`,`ExcersizeId`) VALUES (nullif(?, 0),?,?)";
+        return "INSERT OR ABORT INTO `TrainingProfilesExcersizes` (`Id`,`TrainingProfileId`,`ExcersizeId`) VALUES (nullif(?, 0),?,?)";
       }
 
       @Override
@@ -92,7 +94,8 @@ public final class TrainingProfilesExcersizesDao_Impl implements TrainingProfile
   }
 
   @Override
-  public Long insert(TrainingProfileExcersize trainingProfileExcersize) {
+  public Long insert(final TrainingProfileExcersize trainingProfileExcersize) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       long _result = __insertionAdapterOfTrainingProfileExcersize.insertAndReturnId(trainingProfileExcersize);
@@ -104,7 +107,8 @@ public final class TrainingProfilesExcersizesDao_Impl implements TrainingProfile
   }
 
   @Override
-  public void delete(TrainingProfileExcersize trainingProfileExcersize) {
+  public void delete(final TrainingProfileExcersize trainingProfileExcersize) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __deletionAdapterOfTrainingProfileExcersize.handle(trainingProfileExcersize);
@@ -115,7 +119,8 @@ public final class TrainingProfilesExcersizesDao_Impl implements TrainingProfile
   }
 
   @Override
-  public void update(TrainingProfileExcersize trainingProfileExcersize) {
+  public void update(final TrainingProfileExcersize trainingProfileExcersize) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __updateAdapterOfTrainingProfileExcersize.handle(trainingProfileExcersize);
@@ -126,12 +131,13 @@ public final class TrainingProfilesExcersizesDao_Impl implements TrainingProfile
   }
 
   @Override
-  public int deleteByTrainingProfileId(long trainingProfileId) {
+  public int deleteByTrainingProfileId(final long trainingProfileId) {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteByTrainingProfileId.acquire();
+    int _argIndex = 1;
+    _stmt.bindLong(_argIndex, trainingProfileId);
     __db.beginTransaction();
     try {
-      int _argIndex = 1;
-      _stmt.bindLong(_argIndex, trainingProfileId);
       final int _result = _stmt.executeUpdateDelete();
       __db.setTransactionSuccessful();
       return _result;
@@ -142,16 +148,17 @@ public final class TrainingProfilesExcersizesDao_Impl implements TrainingProfile
   }
 
   @Override
-  public List<TrainingProfileExcersize> getTrainingProfileExcersizes(long trainingProfileId) {
+  public List<TrainingProfileExcersize> getTrainingProfileExcersizes(final long trainingProfileId) {
     final String _sql = "SELECT *FROM TrainingProfilesExcersizes WHERE TrainingProfileId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, trainingProfileId);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("Id");
-      final int _cursorIndexOfTrainingProfileId = _cursor.getColumnIndexOrThrow("TrainingProfileId");
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "Id");
+      final int _cursorIndexOfTrainingProfileId = CursorUtil.getColumnIndexOrThrow(_cursor, "TrainingProfileId");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
       final List<TrainingProfileExcersize> _result = new ArrayList<TrainingProfileExcersize>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final TrainingProfileExcersize _item;
@@ -180,19 +187,20 @@ public final class TrainingProfilesExcersizesDao_Impl implements TrainingProfile
   }
 
   @Override
-  public TrainingProfileExcersize getTrainingProfileExcersize(long trainingProfileId,
-      long excersizeId) {
+  public TrainingProfileExcersize getTrainingProfileExcersize(final long trainingProfileId,
+      final long excersizeId) {
     final String _sql = "SELECT *FROM TrainingProfilesExcersizes WHERE TrainingProfileId=? AND ExcersizeId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 2);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, trainingProfileId);
     _argIndex = 2;
     _statement.bindLong(_argIndex, excersizeId);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("Id");
-      final int _cursorIndexOfTrainingProfileId = _cursor.getColumnIndexOrThrow("TrainingProfileId");
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "Id");
+      final int _cursorIndexOfTrainingProfileId = CursorUtil.getColumnIndexOrThrow(_cursor, "TrainingProfileId");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
       final TrainingProfileExcersize _result;
       if(_cursor.moveToFirst()) {
         final long _tmpId;

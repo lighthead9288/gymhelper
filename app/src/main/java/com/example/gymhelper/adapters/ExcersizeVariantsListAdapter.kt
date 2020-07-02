@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gymhelper.databinding.ExcersizeVariantsListItemBinding
 import com.example.gymhelper.db.Excersize
 
-class ExcersizeVariantsListAdapter(val exVariantClickListener: ExcersizeVariantClickListener):
-    ListAdapter<Excersize, ExcersizeVariantsListAdapter.ViewHolder>(
+class ExcersizeVariantsListAdapter(
+    val exVariantClickListener: ExcersizeVariantClickListener
+): ListAdapter<Excersize, ExcersizeVariantsListAdapter.ViewHolder>(
         ExcersizeVariantsListDiffCallback()
     ) {
 
@@ -25,7 +26,8 @@ class ExcersizeVariantsListAdapter(val exVariantClickListener: ExcersizeVariantC
         )
     }
 
-    class ViewHolder private constructor(private var binding: ExcersizeVariantsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(private var binding: ExcersizeVariantsListItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(exVariantClickListener: ExcersizeVariantClickListener, item: Excersize) {
             binding.excersizeVariantClickListener = exVariantClickListener
@@ -34,12 +36,13 @@ class ExcersizeVariantsListAdapter(val exVariantClickListener: ExcersizeVariantC
         }
 
         companion object {
-
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-
-                val binding = ExcersizeVariantsListItemBinding.inflate(layoutInflater, parent, false)
-
+                val binding = ExcersizeVariantsListItemBinding.inflate(
+                    layoutInflater,
+                    parent,
+                    false
+                )
                 return ViewHolder(
                     binding
                 )
@@ -52,14 +55,11 @@ class ExcersizeVariantsListAdapter(val exVariantClickListener: ExcersizeVariantC
 class ExcersizeVariantsListDiffCallback: DiffUtil.ItemCallback<Excersize>() {
     override fun areItemsTheSame(oldItem: Excersize, newItem: Excersize): Boolean {
         return oldItem.ExcersizeId == newItem.ExcersizeId
-
     }
 
     override fun areContentsTheSame(oldItem: Excersize, newItem: Excersize): Boolean {
         return oldItem==newItem
     }
-
-
 }
 
 class ExcersizeVariantClickListener(val clickListener: (excersize: Excersize)->Unit) {

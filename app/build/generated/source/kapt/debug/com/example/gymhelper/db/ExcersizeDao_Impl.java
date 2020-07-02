@@ -6,6 +6,8 @@ import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Long;
 import java.lang.Override;
@@ -14,15 +16,15 @@ import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class ExcersizeDao_Impl implements ExcersizeDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfExcersize;
+  private final EntityInsertionAdapter<Excersize> __insertionAdapterOfExcersize;
 
-  private final EntityDeletionOrUpdateAdapter __deletionAdapterOfExcersize;
+  private final EntityDeletionOrUpdateAdapter<Excersize> __deletionAdapterOfExcersize;
 
-  private final EntityDeletionOrUpdateAdapter __updateAdapterOfExcersize;
+  private final EntityDeletionOrUpdateAdapter<Excersize> __updateAdapterOfExcersize;
 
   private final SharedSQLiteStatement __preparedStmtOfClear;
 
@@ -31,7 +33,7 @@ public final class ExcersizeDao_Impl implements ExcersizeDao {
     this.__insertionAdapterOfExcersize = new EntityInsertionAdapter<Excersize>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `Excersizes`(`ExcersizeId`,`Name`,`Group`,`Subgroup`,`Description`,`Level`) VALUES (nullif(?, 0),?,?,?,?,?)";
+        return "INSERT OR ABORT INTO `Excersizes` (`ExcersizeId`,`Name`,`Group`,`Subgroup`,`Description`,`Level`) VALUES (nullif(?, 0),?,?,?,?,?)";
       }
 
       @Override
@@ -122,7 +124,8 @@ public final class ExcersizeDao_Impl implements ExcersizeDao {
   }
 
   @Override
-  public Long insert(Excersize excersize) {
+  public Long insert(final Excersize excersize) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       long _result = __insertionAdapterOfExcersize.insertAndReturnId(excersize);
@@ -134,7 +137,8 @@ public final class ExcersizeDao_Impl implements ExcersizeDao {
   }
 
   @Override
-  public int delete(Excersize excersize) {
+  public int delete(final Excersize excersize) {
+    __db.assertNotSuspendingTransaction();
     int _total = 0;
     __db.beginTransaction();
     try {
@@ -147,7 +151,8 @@ public final class ExcersizeDao_Impl implements ExcersizeDao {
   }
 
   @Override
-  public void update(Excersize excersize) {
+  public void update(final Excersize excersize) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __updateAdapterOfExcersize.handle(excersize);
@@ -159,6 +164,7 @@ public final class ExcersizeDao_Impl implements ExcersizeDao {
 
   @Override
   public void clear() {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfClear.acquire();
     __db.beginTransaction();
     try {
@@ -171,7 +177,7 @@ public final class ExcersizeDao_Impl implements ExcersizeDao {
   }
 
   @Override
-  public Excersize get(Long id) {
+  public Excersize get(final Long id) {
     final String _sql = "SELECT * FROM Excersizes WHERE ExcersizeId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
@@ -180,14 +186,15 @@ public final class ExcersizeDao_Impl implements ExcersizeDao {
     } else {
       _statement.bindLong(_argIndex, id);
     }
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
-      final int _cursorIndexOfName = _cursor.getColumnIndexOrThrow("Name");
-      final int _cursorIndexOfGroup = _cursor.getColumnIndexOrThrow("Group");
-      final int _cursorIndexOfSubgroup = _cursor.getColumnIndexOrThrow("Subgroup");
-      final int _cursorIndexOfDescription = _cursor.getColumnIndexOrThrow("Description");
-      final int _cursorIndexOfLevel = _cursor.getColumnIndexOrThrow("Level");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
+      final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "Name");
+      final int _cursorIndexOfGroup = CursorUtil.getColumnIndexOrThrow(_cursor, "Group");
+      final int _cursorIndexOfSubgroup = CursorUtil.getColumnIndexOrThrow(_cursor, "Subgroup");
+      final int _cursorIndexOfDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "Description");
+      final int _cursorIndexOfLevel = CursorUtil.getColumnIndexOrThrow(_cursor, "Level");
       final Excersize _result;
       if(_cursor.moveToFirst()) {
         final long _tmpExcersizeId;
@@ -217,14 +224,15 @@ public final class ExcersizeDao_Impl implements ExcersizeDao {
   public List<Excersize> getAll() {
     final String _sql = "SELECT * FROM Excersizes";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
-      final int _cursorIndexOfName = _cursor.getColumnIndexOrThrow("Name");
-      final int _cursorIndexOfGroup = _cursor.getColumnIndexOrThrow("Group");
-      final int _cursorIndexOfSubgroup = _cursor.getColumnIndexOrThrow("Subgroup");
-      final int _cursorIndexOfDescription = _cursor.getColumnIndexOrThrow("Description");
-      final int _cursorIndexOfLevel = _cursor.getColumnIndexOrThrow("Level");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
+      final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "Name");
+      final int _cursorIndexOfGroup = CursorUtil.getColumnIndexOrThrow(_cursor, "Group");
+      final int _cursorIndexOfSubgroup = CursorUtil.getColumnIndexOrThrow(_cursor, "Subgroup");
+      final int _cursorIndexOfDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "Description");
+      final int _cursorIndexOfLevel = CursorUtil.getColumnIndexOrThrow(_cursor, "Level");
       final List<Excersize> _result = new ArrayList<Excersize>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final Excersize _item;

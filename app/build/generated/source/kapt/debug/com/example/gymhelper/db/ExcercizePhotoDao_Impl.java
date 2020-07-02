@@ -6,6 +6,8 @@ import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Long;
 import java.lang.Override;
@@ -14,13 +16,13 @@ import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class ExcercizePhotoDao_Impl implements ExcercizePhotoDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfExcersizePhoto;
+  private final EntityInsertionAdapter<ExcersizePhoto> __insertionAdapterOfExcersizePhoto;
 
-  private final EntityDeletionOrUpdateAdapter __deletionAdapterOfExcersizePhoto;
+  private final EntityDeletionOrUpdateAdapter<ExcersizePhoto> __deletionAdapterOfExcersizePhoto;
 
   private final SharedSQLiteStatement __preparedStmtOfClear;
 
@@ -31,7 +33,7 @@ public final class ExcercizePhotoDao_Impl implements ExcercizePhotoDao {
     this.__insertionAdapterOfExcersizePhoto = new EntityInsertionAdapter<ExcersizePhoto>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `ExcersizePhoto`(`Id`,`ExcersizeId`,`PhotoId`) VALUES (nullif(?, 0),?,?)";
+        return "INSERT OR ABORT INTO `ExcersizePhoto` (`Id`,`ExcersizeId`,`PhotoId`) VALUES (nullif(?, 0),?,?)";
       }
 
       @Override
@@ -77,7 +79,8 @@ public final class ExcercizePhotoDao_Impl implements ExcercizePhotoDao {
   }
 
   @Override
-  public void insert(ExcersizePhoto excersizePhoto) {
+  public void insert(final ExcersizePhoto excersizePhoto) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __insertionAdapterOfExcersizePhoto.insert(excersizePhoto);
@@ -88,7 +91,8 @@ public final class ExcercizePhotoDao_Impl implements ExcercizePhotoDao {
   }
 
   @Override
-  public void delete(ExcersizePhoto excersizePhoto) {
+  public void delete(final ExcersizePhoto excersizePhoto) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __deletionAdapterOfExcersizePhoto.handle(excersizePhoto);
@@ -100,6 +104,7 @@ public final class ExcercizePhotoDao_Impl implements ExcercizePhotoDao {
 
   @Override
   public void clear() {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfClear.acquire();
     __db.beginTransaction();
     try {
@@ -112,12 +117,13 @@ public final class ExcercizePhotoDao_Impl implements ExcercizePhotoDao {
   }
 
   @Override
-  public void deleteByExersizeId(long exId) {
+  public void deleteByExersizeId(final long exId) {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteByExersizeId.acquire();
+    int _argIndex = 1;
+    _stmt.bindLong(_argIndex, exId);
     __db.beginTransaction();
     try {
-      int _argIndex = 1;
-      _stmt.bindLong(_argIndex, exId);
       _stmt.executeUpdateDelete();
       __db.setTransactionSuccessful();
     } finally {
@@ -130,11 +136,12 @@ public final class ExcercizePhotoDao_Impl implements ExcercizePhotoDao {
   public List<ExcersizePhoto> getAll() {
     final String _sql = "SELECT * FROM ExcersizePhoto";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("Id");
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
-      final int _cursorIndexOfPhotoId = _cursor.getColumnIndexOrThrow("PhotoId");
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "Id");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
+      final int _cursorIndexOfPhotoId = CursorUtil.getColumnIndexOrThrow(_cursor, "PhotoId");
       final List<ExcersizePhoto> _result = new ArrayList<ExcersizePhoto>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final ExcersizePhoto _item;
@@ -163,16 +170,17 @@ public final class ExcercizePhotoDao_Impl implements ExcercizePhotoDao {
   }
 
   @Override
-  public List<ExcersizePhoto> getByExcersizeId(long excersizeId) {
+  public List<ExcersizePhoto> getByExcersizeId(final long excersizeId) {
     final String _sql = "SELECT *FROM ExcersizePhoto WHERE ExcersizeId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, excersizeId);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("Id");
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
-      final int _cursorIndexOfPhotoId = _cursor.getColumnIndexOrThrow("PhotoId");
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "Id");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
+      final int _cursorIndexOfPhotoId = CursorUtil.getColumnIndexOrThrow(_cursor, "PhotoId");
       final List<ExcersizePhoto> _result = new ArrayList<ExcersizePhoto>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final ExcersizePhoto _item;

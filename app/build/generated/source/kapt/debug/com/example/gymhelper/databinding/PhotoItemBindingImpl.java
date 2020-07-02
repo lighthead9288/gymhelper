@@ -95,7 +95,7 @@ public class PhotoItemBindingImpl extends PhotoItemBinding  {
         if ((dirtyFlags & 0x3L) != 0) {
             // api target 1
 
-            com.example.gymhelper.BindingAdaptersKt.bindImage(this.exImage, path);
+            com.example.gymhelper.utils.BindingAdaptersKt.bindImage(this.exImage, path);
         }
     }
     // Listener Stub Implementations

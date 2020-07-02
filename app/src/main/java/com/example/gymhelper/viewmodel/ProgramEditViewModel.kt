@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gymhelper.SharedPrefs
+import com.example.gymhelper.utils.SharedPrefs
 import com.example.gymhelper.db.Excersize
 import com.example.gymhelper.db.ExcersizeDatabase
 import com.example.gymhelper.db.TrainingProgramDay
@@ -12,12 +12,11 @@ import com.example.gymhelper.model.ProgramByDays
 import com.example.gymhelper.model.TrainingDay
 import kotlinx.coroutines.*
 
-class ProgramEditViewModel(private val trainingProgramId: Long, private val db: ExcersizeDatabase, val application: Application): ViewModel() {
+class ProgramEditViewModel(private val trainingProgramId: Long, val application: Application): ViewModel() {
 
+    private val db = ExcersizeDatabase.getInstance(application)
     private var viewModelJob = Job()
-
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
     private var sharedPrefs: SharedPrefs? = null
 
     private val _curTrainingProgram = MutableLiveData<ProgramByDays>()
@@ -52,13 +51,14 @@ class ProgramEditViewModel(private val trainingProgramId: Long, private val db: 
         uiScope.launch {
             deleteTrainingDayFromDb(trainingDayId)
             _curTrainingProgram.value = getCurTrainingProgramFromDb()
-
         }
     }
 
     fun addNewTrainingDay(trainingProgramId: Long, dayName: String) {
         uiScope.launch {
-            _newTrainingDay.value = addNewTrainingDayToDb(TrainingProgramDay(trainingProgramId = trainingProgramId, DayName = dayName))
+            _newTrainingDay.value = addNewTrainingDayToDb(
+                TrainingProgramDay(trainingProgramId = trainingProgramId, DayName = dayName)
+            )
             _curTrainingProgram.value = getCurTrainingProgramFromDb()
         }
     }
@@ -87,24 +87,31 @@ class ProgramEditViewModel(private val trainingProgramId: Long, private val db: 
     private suspend fun getCurTrainingProgramFromDb():ProgramByDays  {
 
         return withContext(Dispatchers.IO) {
-            val trainingProgramDays = db.trainingProgramDayDao.getTrainingProgramDays(trainingProgramId)
+            val trainingProgramDays
+                    = db.trainingProgramDayDao.getTrainingProgramDays(trainingProgramId)
 
             val trainingDays = mutableListOf<TrainingDay>()
             for (trainingProgramDay in trainingProgramDays) {
 
-                val excersizes = db.trainingProgramsExcercizesDao.getById(trainingProgramDay.TrainingProgramDayId)
+                val excersizes
+                        = db.trainingProgramsExcercizesDao.getById(trainingProgramDay.TrainingProgramDayId)
                 val sortedExcercizes = excersizes.sortedBy { x->x.DayId }
                 val curDayExList = mutableListOf<Excersize>()
                 for (ex in sortedExcercizes) {
                     val excersize = db.excersizeDao.get(ex.excersizeId)
                     curDayExList.add(excersize)
                 }
-
-                trainingDays.add(TrainingDay(trainingProgramDay, curDayExList.distinctBy { it.ExcersizeId }))
+                trainingDays.add(
+                    TrainingDay(
+                        trainingProgramDay,
+                        curDayExList.distinctBy {
+                            it.ExcersizeId
+                        }
+                    )
+                )
             }
 
             val trainingProgramByDays = ProgramByDays(trainingDays)
-
             trainingProgramByDays
         }
     }

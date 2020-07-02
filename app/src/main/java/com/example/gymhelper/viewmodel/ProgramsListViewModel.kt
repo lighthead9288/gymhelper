@@ -4,20 +4,17 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gymhelper.SharedPrefs
+import com.example.gymhelper.utils.SharedPrefs
 import com.example.gymhelper.db.ExcersizeDatabase
 import com.example.gymhelper.db.TrainingProgram
 import com.example.gymhelper.model.TrainingProgramWithDetails
 import kotlinx.coroutines.*
 
-class ProgramsListViewModel(private val dataSource: ExcersizeDatabase, private val application: Application): ViewModel() {
+class ProgramsListViewModel(private val application: Application): ViewModel() {
 
-    val db = dataSource
-
+    private val db = ExcersizeDatabase.getInstance(application)
     private var viewModelJob = Job()
-
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
     private var sharedPrefs: SharedPrefs? = null
 
     private var _trainingProgramsList =  MutableLiveData<List<TrainingProgramWithDetails>>()
@@ -26,7 +23,6 @@ class ProgramsListViewModel(private val dataSource: ExcersizeDatabase, private v
 
     init {
         getTrainingPrograms()
-
     }
 
     fun checkCurTrainingProgramSelection(trainingProgramId: Long): Boolean {
@@ -39,7 +35,6 @@ class ProgramsListViewModel(private val dataSource: ExcersizeDatabase, private v
         uiScope.launch {
             deleteTrainingProgramFromDb(trainingProgram)
             _trainingProgramsList.value = getTrainingProgramsFromDb()
-
         }
     }
 
@@ -51,7 +46,6 @@ class ProgramsListViewModel(private val dataSource: ExcersizeDatabase, private v
     }
 
     fun getTrainingPrograms() {
-
         uiScope.launch {
             _trainingProgramsList.value = getTrainingProgramsFromDb()
         }
@@ -60,7 +54,8 @@ class ProgramsListViewModel(private val dataSource: ExcersizeDatabase, private v
 
     private suspend fun deleteTrainingProgramFromDb(trainingProgram: TrainingProgram) {
         withContext(Dispatchers.IO) {
-            val daysForDelete = db.trainingProgramDayDao.getTrainingProgramDays(trainingProgram.TrainingProgramId)
+            val daysForDelete
+                    = db.trainingProgramDayDao.getTrainingProgramDays(trainingProgram.TrainingProgramId)
             for(day in daysForDelete) {
                 db.trainingProgramsExcercizesDao.deleteByTrainingDayId(day.TrainingProgramDayId)
             }
@@ -76,17 +71,16 @@ class ProgramsListViewModel(private val dataSource: ExcersizeDatabase, private v
     }
 
     private suspend fun getTrainingProgramsFromDb(): List<TrainingProgramWithDetails> {
-
         return withContext(Dispatchers.IO) {
-
             val programs = db.trainingProgramDao.getAll()
-
-            var programsWithDetails = mutableListOf<TrainingProgramWithDetails>()
+            var programsWithDetails
+                    = mutableListOf<TrainingProgramWithDetails>()
             for(program in programs) {
                 val isChecked = checkCurTrainingProgramSelection(program.TrainingProgramId)
-                programsWithDetails.add(TrainingProgramWithDetails(trainingProgram = program, isChecked = isChecked))
+                programsWithDetails.add(
+                    TrainingProgramWithDetails(trainingProgram = program, isChecked = isChecked)
+                )
             }
-
             programsWithDetails
         }
     }

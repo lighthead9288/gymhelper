@@ -6,6 +6,8 @@ import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Long;
 import java.lang.Override;
@@ -14,15 +16,15 @@ import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class TrainingProfileDao_Impl implements TrainingProfileDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfTrainingProfile;
+  private final EntityInsertionAdapter<TrainingProfile> __insertionAdapterOfTrainingProfile;
 
-  private final EntityDeletionOrUpdateAdapter __deletionAdapterOfTrainingProfile;
+  private final EntityDeletionOrUpdateAdapter<TrainingProfile> __deletionAdapterOfTrainingProfile;
 
-  private final EntityDeletionOrUpdateAdapter __updateAdapterOfTrainingProfile;
+  private final EntityDeletionOrUpdateAdapter<TrainingProfile> __updateAdapterOfTrainingProfile;
 
   private final SharedSQLiteStatement __preparedStmtOfClear;
 
@@ -31,7 +33,7 @@ public final class TrainingProfileDao_Impl implements TrainingProfileDao {
     this.__insertionAdapterOfTrainingProfile = new EntityInsertionAdapter<TrainingProfile>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `TrainingProfiles`(`TrainingProfileId`,`Name`) VALUES (nullif(?, 0),?)";
+        return "INSERT OR ABORT INTO `TrainingProfiles` (`TrainingProfileId`,`Name`) VALUES (nullif(?, 0),?)";
       }
 
       @Override
@@ -82,7 +84,8 @@ public final class TrainingProfileDao_Impl implements TrainingProfileDao {
   }
 
   @Override
-  public Long insert(TrainingProfile trainingProfile) {
+  public Long insert(final TrainingProfile trainingProfile) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       long _result = __insertionAdapterOfTrainingProfile.insertAndReturnId(trainingProfile);
@@ -94,7 +97,8 @@ public final class TrainingProfileDao_Impl implements TrainingProfileDao {
   }
 
   @Override
-  public int delete(TrainingProfile trainingProfile) {
+  public int delete(final TrainingProfile trainingProfile) {
+    __db.assertNotSuspendingTransaction();
     int _total = 0;
     __db.beginTransaction();
     try {
@@ -107,7 +111,8 @@ public final class TrainingProfileDao_Impl implements TrainingProfileDao {
   }
 
   @Override
-  public void update(TrainingProfile trainingProfile) {
+  public void update(final TrainingProfile trainingProfile) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __updateAdapterOfTrainingProfile.handle(trainingProfile);
@@ -119,6 +124,7 @@ public final class TrainingProfileDao_Impl implements TrainingProfileDao {
 
   @Override
   public void clear() {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfClear.acquire();
     __db.beginTransaction();
     try {
@@ -131,15 +137,16 @@ public final class TrainingProfileDao_Impl implements TrainingProfileDao {
   }
 
   @Override
-  public TrainingProfile get(long id) {
+  public TrainingProfile get(final long id) {
     final String _sql = "SELECT *FROM TrainingProfiles WHERE TrainingProfileId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, id);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfTrainingProfileId = _cursor.getColumnIndexOrThrow("TrainingProfileId");
-      final int _cursorIndexOfName = _cursor.getColumnIndexOrThrow("Name");
+      final int _cursorIndexOfTrainingProfileId = CursorUtil.getColumnIndexOrThrow(_cursor, "TrainingProfileId");
+      final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "Name");
       final TrainingProfile _result;
       if(_cursor.moveToFirst()) {
         final long _tmpTrainingProfileId;
@@ -161,10 +168,11 @@ public final class TrainingProfileDao_Impl implements TrainingProfileDao {
   public List<TrainingProfile> getAll() {
     final String _sql = "SELECT *FROM TrainingProfiles";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfTrainingProfileId = _cursor.getColumnIndexOrThrow("TrainingProfileId");
-      final int _cursorIndexOfName = _cursor.getColumnIndexOrThrow("Name");
+      final int _cursorIndexOfTrainingProfileId = CursorUtil.getColumnIndexOrThrow(_cursor, "TrainingProfileId");
+      final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "Name");
       final List<TrainingProfile> _result = new ArrayList<TrainingProfile>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final TrainingProfile _item;

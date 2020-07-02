@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_mahi_s_girei3.jpg.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/mahi_s_girei3.jpg"
-    },
-    {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_wall_background.jpeg.flat",
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/wall_background.jpeg"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_mahi_s_girei3.jpg.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/mahi_s_girei3.jpg"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_otzhim_spinoi_k_sk2.jpg.flat",
@@ -44,28 +44,28 @@
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/prised_s_gant2.jpg"
     },
     {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/layout_programs_expandable_list_child_layout.xml.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/programs_expandable_list_child_layout.xml"
-    },
-    {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_t_razved_ruk1.jpg.flat",
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/t_razved_ruk1.jpg"
     },
     {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_shragi_gant2.jpg.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/shragi_gant2.jpg"
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/layout_programs_expandable_list_child_layout.xml.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/programs_expandable_list_child_layout.xml"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_otzhim_ot_pola_nogi_v_petl2.jpg.flat",
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/otzhim_ot_pola_nogi_v_petl2.jpg"
     },
     {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_t_otzhim_s_petl1.jpg.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/t_otzhim_s_petl1.jpg"
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_shragi_gant2.jpg.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/shragi_gant2.jpg"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_t_otzhim_s_petl1.jpg.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/t_otzhim_s_petl1.jpg"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_sgib_ruk_so_sht_stoya1.jpg.flat",
@@ -136,16 +136,16 @@
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/font/work_sans_thin.xml"
     },
     {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_sved_nog_v_tren2.jpg.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/sved_nog_v_tren2.jpg"
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/layout_profiles_list_item.xml.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/profiles_list_item.xml"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_zhim_gant_vverh_stoya1.jpg.flat",
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/zhim_gant_vverh_stoya1.jpg"
     },
     {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/layout_profiles_list_item.xml.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/layout/profiles_list_item.xml"
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_sved_nog_v_tren2.jpg.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/sved_nog_v_tren2.jpg"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_stan_1.jpeg.flat",
@@ -196,24 +196,24 @@
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/podtyag_obrat_hv1.jpg"
     },
     {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_sgib_nog_v_tren_sidya2.jpg.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/sgib_nog_v_tren_sidya2.jpg"
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_bolgarskie_vypady2.jpg.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/bolgarskie_vypady2.jpg"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_otzhim_v_petlyah1.jpg.flat",
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/otzhim_v_petlyah1.jpg"
     },
     {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_bolgarskie_vypady2.jpg.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/bolgarskie_vypady2.jpg"
-    },
-    {
-        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_kosye_skruch_na_polu1.jpg.flat",
-        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/kosye_skruch_na_polu1.jpg"
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_sgib_nog_v_tren_sidya2.jpg.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/sgib_nog_v_tren_sidya2.jpg"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_otzhim_brus_grud2.jpg.flat",
         "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/otzhim_brus_grud2.jpg"
+    },
+    {
+        "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_kosye_skruch_na_polu1.jpg.flat",
+        "source": "/home/lighthead/AndroidStudioProjects/gymhelper/app/src/main/res/drawable/kosye_skruch_na_polu1.jpg"
     },
     {
         "merged": "/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/res/merged/debug/drawable_tjaga_za_golovu_verhnego_bloka2.jpg.flat",

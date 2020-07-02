@@ -6,6 +6,8 @@ import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Long;
 import java.lang.Override;
@@ -14,13 +16,13 @@ import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgramsExcercizesDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfTrainingProgramsExcersizes;
+  private final EntityInsertionAdapter<TrainingProgramsExcersizes> __insertionAdapterOfTrainingProgramsExcersizes;
 
-  private final EntityDeletionOrUpdateAdapter __deletionAdapterOfTrainingProgramsExcersizes;
+  private final EntityDeletionOrUpdateAdapter<TrainingProgramsExcersizes> __deletionAdapterOfTrainingProgramsExcersizes;
 
   private final SharedSQLiteStatement __preparedStmtOfClear;
 
@@ -33,7 +35,7 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
     this.__insertionAdapterOfTrainingProgramsExcersizes = new EntityInsertionAdapter<TrainingProgramsExcersizes>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `TrainingProgramsExcercizes`(`Id`,`ExcersizeId`,`DayId`) VALUES (nullif(?, 0),?,?)";
+        return "INSERT OR ABORT INTO `TrainingProgramsExcercizes` (`Id`,`ExcersizeId`,`DayId`) VALUES (nullif(?, 0),?,?)";
       }
 
       @Override
@@ -86,7 +88,8 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
   }
 
   @Override
-  public void insert(TrainingProgramsExcersizes trainingProgramsExcersizes) {
+  public void insert(final TrainingProgramsExcersizes trainingProgramsExcersizes) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __insertionAdapterOfTrainingProgramsExcersizes.insert(trainingProgramsExcersizes);
@@ -97,7 +100,8 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
   }
 
   @Override
-  public void delete(TrainingProgramsExcersizes trainingProgramsExcersizes) {
+  public void delete(final TrainingProgramsExcersizes trainingProgramsExcersizes) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __deletionAdapterOfTrainingProgramsExcersizes.handle(trainingProgramsExcersizes);
@@ -109,6 +113,7 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
 
   @Override
   public void clear() {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfClear.acquire();
     __db.beginTransaction();
     try {
@@ -121,14 +126,15 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
   }
 
   @Override
-  public int deleteExersizeFromTrainingDay(long exId, long trainingDayId) {
+  public int deleteExersizeFromTrainingDay(final long exId, final long trainingDayId) {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteExersizeFromTrainingDay.acquire();
+    int _argIndex = 1;
+    _stmt.bindLong(_argIndex, exId);
+    _argIndex = 2;
+    _stmt.bindLong(_argIndex, trainingDayId);
     __db.beginTransaction();
     try {
-      int _argIndex = 1;
-      _stmt.bindLong(_argIndex, exId);
-      _argIndex = 2;
-      _stmt.bindLong(_argIndex, trainingDayId);
       final int _result = _stmt.executeUpdateDelete();
       __db.setTransactionSuccessful();
       return _result;
@@ -139,12 +145,13 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
   }
 
   @Override
-  public int deleteByTrainingDayId(long trainingDayId) {
+  public int deleteByTrainingDayId(final long trainingDayId) {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteByTrainingDayId.acquire();
+    int _argIndex = 1;
+    _stmt.bindLong(_argIndex, trainingDayId);
     __db.beginTransaction();
     try {
-      int _argIndex = 1;
-      _stmt.bindLong(_argIndex, trainingDayId);
       final int _result = _stmt.executeUpdateDelete();
       __db.setTransactionSuccessful();
       return _result;
@@ -155,7 +162,7 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
   }
 
   @Override
-  public List<TrainingProgramsExcersizes> getById(Long trainingDayId) {
+  public List<TrainingProgramsExcersizes> getById(final Long trainingDayId) {
     final String _sql = "SELECT *FROM TrainingProgramsExcercizes WHERE DayId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
@@ -164,11 +171,12 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
     } else {
       _statement.bindLong(_argIndex, trainingDayId);
     }
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("Id");
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
-      final int _cursorIndexOfDayId = _cursor.getColumnIndexOrThrow("DayId");
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "Id");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
+      final int _cursorIndexOfDayId = CursorUtil.getColumnIndexOrThrow(_cursor, "DayId");
       final List<TrainingProgramsExcersizes> _result = new ArrayList<TrainingProgramsExcersizes>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final TrainingProgramsExcersizes _item;
@@ -197,16 +205,17 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
   }
 
   @Override
-  public List<TrainingProgramsExcersizes> getDayExcersizesById(long trainingDayId) {
+  public List<TrainingProgramsExcersizes> getDayExcersizesById(final long trainingDayId) {
     final String _sql = "SELECT *FROM TrainingProgramsExcercizes WHERE DayId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, trainingDayId);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("Id");
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
-      final int _cursorIndexOfDayId = _cursor.getColumnIndexOrThrow("DayId");
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "Id");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
+      final int _cursorIndexOfDayId = CursorUtil.getColumnIndexOrThrow(_cursor, "DayId");
       final List<TrainingProgramsExcersizes> _result = new ArrayList<TrainingProgramsExcersizes>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final TrainingProgramsExcersizes _item;
@@ -235,18 +244,20 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
   }
 
   @Override
-  public TrainingProgramsExcersizes getDayExcersizeById(long trainingDayId, long excersizeId) {
+  public TrainingProgramsExcersizes getDayExcersizeById(final long trainingDayId,
+      final long excersizeId) {
     final String _sql = "SELECT *FROM TrainingProgramsExcercizes WHERE DayId=? AND ExcersizeId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 2);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, trainingDayId);
     _argIndex = 2;
     _statement.bindLong(_argIndex, excersizeId);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("Id");
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
-      final int _cursorIndexOfDayId = _cursor.getColumnIndexOrThrow("DayId");
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "Id");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
+      final int _cursorIndexOfDayId = CursorUtil.getColumnIndexOrThrow(_cursor, "DayId");
       final TrainingProgramsExcersizes _result;
       if(_cursor.moveToFirst()) {
         final long _tmpId;
@@ -278,11 +289,12 @@ public final class TrainingProgramsExcercizesDao_Impl implements TrainingProgram
   public List<TrainingProgramsExcersizes> getAll() {
     final String _sql = "SELECT *FROM TrainingProgramsExcercizes";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfId = _cursor.getColumnIndexOrThrow("Id");
-      final int _cursorIndexOfExcersizeId = _cursor.getColumnIndexOrThrow("ExcersizeId");
-      final int _cursorIndexOfDayId = _cursor.getColumnIndexOrThrow("DayId");
+      final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "Id");
+      final int _cursorIndexOfExcersizeId = CursorUtil.getColumnIndexOrThrow(_cursor, "ExcersizeId");
+      final int _cursorIndexOfDayId = CursorUtil.getColumnIndexOrThrow(_cursor, "DayId");
       final List<TrainingProgramsExcersizes> _result = new ArrayList<TrainingProgramsExcersizes>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final TrainingProgramsExcersizes _item;

@@ -6,6 +6,8 @@ import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Long;
 import java.lang.Override;
@@ -14,15 +16,15 @@ import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfTrainingProgramDay;
+  private final EntityInsertionAdapter<TrainingProgramDay> __insertionAdapterOfTrainingProgramDay;
 
-  private final EntityDeletionOrUpdateAdapter __deletionAdapterOfTrainingProgramDay;
+  private final EntityDeletionOrUpdateAdapter<TrainingProgramDay> __deletionAdapterOfTrainingProgramDay;
 
-  private final EntityDeletionOrUpdateAdapter __updateAdapterOfTrainingProgramDay;
+  private final EntityDeletionOrUpdateAdapter<TrainingProgramDay> __updateAdapterOfTrainingProgramDay;
 
   private final SharedSQLiteStatement __preparedStmtOfDeleteByTrainingProgramId;
 
@@ -31,7 +33,7 @@ public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
     this.__insertionAdapterOfTrainingProgramDay = new EntityInsertionAdapter<TrainingProgramDay>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `TrainingProgramDays`(`TrainingProgramDayId`,`trainingProgramId`,`dayName`) VALUES (nullif(?, 0),?,?)";
+        return "INSERT OR ABORT INTO `TrainingProgramDays` (`TrainingProgramDayId`,`trainingProgramId`,`dayName`) VALUES (nullif(?, 0),?,?)";
       }
 
       @Override
@@ -92,7 +94,8 @@ public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
   }
 
   @Override
-  public Long insert(TrainingProgramDay day) {
+  public Long insert(final TrainingProgramDay day) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       long _result = __insertionAdapterOfTrainingProgramDay.insertAndReturnId(day);
@@ -104,7 +107,8 @@ public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
   }
 
   @Override
-  public void delete(TrainingProgramDay day) {
+  public void delete(final TrainingProgramDay day) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __deletionAdapterOfTrainingProgramDay.handle(day);
@@ -115,7 +119,8 @@ public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
   }
 
   @Override
-  public void update(TrainingProgramDay day) {
+  public void update(final TrainingProgramDay day) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __updateAdapterOfTrainingProgramDay.handle(day);
@@ -126,12 +131,13 @@ public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
   }
 
   @Override
-  public int deleteByTrainingProgramId(long trainingProgramId) {
+  public int deleteByTrainingProgramId(final long trainingProgramId) {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteByTrainingProgramId.acquire();
+    int _argIndex = 1;
+    _stmt.bindLong(_argIndex, trainingProgramId);
     __db.beginTransaction();
     try {
-      int _argIndex = 1;
-      _stmt.bindLong(_argIndex, trainingProgramId);
       final int _result = _stmt.executeUpdateDelete();
       __db.setTransactionSuccessful();
       return _result;
@@ -142,16 +148,17 @@ public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
   }
 
   @Override
-  public List<TrainingProgramDay> getTrainingProgramDays(long trainingProgramId) {
+  public List<TrainingProgramDay> getTrainingProgramDays(final long trainingProgramId) {
     final String _sql = "SELECT *FROM TrainingProgramDays WHERE trainingProgramId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, trainingProgramId);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfTrainingProgramDayId = _cursor.getColumnIndexOrThrow("TrainingProgramDayId");
-      final int _cursorIndexOfTrainingProgramId = _cursor.getColumnIndexOrThrow("trainingProgramId");
-      final int _cursorIndexOfDayName = _cursor.getColumnIndexOrThrow("dayName");
+      final int _cursorIndexOfTrainingProgramDayId = CursorUtil.getColumnIndexOrThrow(_cursor, "TrainingProgramDayId");
+      final int _cursorIndexOfTrainingProgramId = CursorUtil.getColumnIndexOrThrow(_cursor, "trainingProgramId");
+      final int _cursorIndexOfDayName = CursorUtil.getColumnIndexOrThrow(_cursor, "dayName");
       final List<TrainingProgramDay> _result = new ArrayList<TrainingProgramDay>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final TrainingProgramDay _item;
@@ -176,7 +183,7 @@ public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
   }
 
   @Override
-  public TrainingProgramDay getTrainingProgramDayById(Long trainingProgramDayId) {
+  public TrainingProgramDay getTrainingProgramDayById(final Long trainingProgramDayId) {
     final String _sql = "SELECT *FROM TrainingProgramDays WHERE TrainingProgramDayId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
@@ -185,11 +192,12 @@ public final class TrainingProgramDayDao_Impl implements TrainingProgramDayDao {
     } else {
       _statement.bindLong(_argIndex, trainingProgramDayId);
     }
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfTrainingProgramDayId = _cursor.getColumnIndexOrThrow("TrainingProgramDayId");
-      final int _cursorIndexOfTrainingProgramId = _cursor.getColumnIndexOrThrow("trainingProgramId");
-      final int _cursorIndexOfDayName = _cursor.getColumnIndexOrThrow("dayName");
+      final int _cursorIndexOfTrainingProgramDayId = CursorUtil.getColumnIndexOrThrow(_cursor, "TrainingProgramDayId");
+      final int _cursorIndexOfTrainingProgramId = CursorUtil.getColumnIndexOrThrow(_cursor, "trainingProgramId");
+      final int _cursorIndexOfDayName = CursorUtil.getColumnIndexOrThrow(_cursor, "dayName");
       final TrainingProgramDay _result;
       if(_cursor.moveToFirst()) {
         final long _tmpTrainingProgramDayId;

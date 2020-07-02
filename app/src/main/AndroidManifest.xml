@@ -12,7 +12,7 @@
         android:roundIcon="@drawable/dumbbells"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.gymhelper.MainActivity">
+        <activity android:name="com.example.gymhelper.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

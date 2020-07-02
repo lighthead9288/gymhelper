@@ -4,18 +4,16 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gymhelper.SharedPrefs
+import com.example.gymhelper.utils.SharedPrefs
 import com.example.gymhelper.db.ExcersizeDatabase
 import com.example.gymhelper.db.TrainingProfile
 import com.example.gymhelper.model.TrainingProfileWithDetails
 import kotlinx.coroutines.*
 
-class ProfilesListViewModel(private val dataSource: ExcersizeDatabase, private val application: Application): ViewModel() {
+class ProfilesListViewModel(private val application: Application): ViewModel() {
 
-    val db = dataSource
-
+    private val db = ExcersizeDatabase.getInstance(application)
     private var viewModelJob = Job()
-
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private var sharedPrefs: SharedPrefs? = null

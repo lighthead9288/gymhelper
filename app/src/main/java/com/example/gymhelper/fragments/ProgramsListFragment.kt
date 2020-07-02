@@ -1,6 +1,7 @@
 package com.example.gymhelper.fragments
 
 import android.app.AlertDialog
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,9 +16,8 @@ import com.example.gymhelper.adapters.DeleteProgramClickListener
 import com.example.gymhelper.adapters.ProgramListClickListener
 import com.example.gymhelper.adapters.ProgramsListAdapter
 import com.example.gymhelper.databinding.FragmentProgramsListBinding
-import com.example.gymhelper.db.ExcersizeDatabase
 import com.example.gymhelper.viewmodel.ProgramsListViewModel
-import com.example.gymhelper.viewmodel.ProgramsListViewModelFactory
+import com.example.gymhelper.factories.ProgramsListViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add_dialog.view.*
 
 /**
@@ -26,30 +26,35 @@ import kotlinx.android.synthetic.main.fragment_add_dialog.view.*
 class ProgramsListFragment : Fragment() {
 
     private lateinit var binding: FragmentProgramsListBinding
-
     private lateinit var programsListViewModel: ProgramsListViewModel
+    private lateinit var programsListAdapter: ProgramsListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding = FragmentProgramsListBinding.inflate(inflater)
-
         val application = requireNotNull(this.activity).application
-        val dataSource = ExcersizeDatabase.getInstance(application)
-        val viewModelFactory =
-            ProgramsListViewModelFactory(
-                dataSource,
-                application
-            )
 
-        programsListViewModel = ViewModelProviders.of(this, viewModelFactory).get(
-            ProgramsListViewModel::class.java)
+        initViewModel(application)
+        initBinding(inflater, application)
+        initObservables()
 
+        return binding.root
+    }
+
+    private fun initObservables() {
+        programsListViewModel.trainingProgramsList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                programsListAdapter.submitList(it)
+            }
+        })
+    }
+
+    private fun initBinding(inflater: LayoutInflater, application: Application) {
+        binding = FragmentProgramsListBinding.inflate(inflater)
         binding.viewModel = programsListViewModel
 
-        val adapter =
+        programsListAdapter =
             ProgramsListAdapter(
                 ProgramListClickListener {
                     this.findNavController().navigate(
@@ -61,14 +66,8 @@ class ProgramsListFragment : Fragment() {
                 DeleteProgramClickListener {
                     programsListViewModel.deleteTrainingProgram(it.trainingProgram)
                 })
-        binding.programsListRv.adapter = adapter
-        programsListViewModel.trainingProgramsList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.submitList(it)
-            }
-        })
+        binding.programsListRv.adapter = programsListAdapter
         binding.programsListRv.addItemDecoration(DividerItemDecoration(application, DividerItemDecoration.VERTICAL))
-
         binding.addProgramFb.setOnClickListener {
             val dialogView = LayoutInflater.from(context).inflate(R.layout.fragment_add_dialog,null)
 
@@ -85,14 +84,20 @@ class ProgramsListFragment : Fragment() {
             }
         }
 
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
+    }
 
-        return binding.root
+    private fun initViewModel(application: Application) {
+        val viewModelFactory =
+            ProgramsListViewModelFactory(
+                application
+            )
+        programsListViewModel = ViewModelProviders.of(this, viewModelFactory).get(
+            ProgramsListViewModel::class.java)
     }
 
     override fun onResume() {
         super.onResume()
-
         programsListViewModel.getTrainingPrograms()
     }
 

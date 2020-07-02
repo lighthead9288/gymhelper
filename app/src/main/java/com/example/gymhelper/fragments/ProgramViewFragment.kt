@@ -1,5 +1,6 @@
 package com.example.gymhelper.fragments
 
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,38 +11,34 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.gymhelper.adapters.ProgramViewExpandableListAdapter
-import com.example.gymhelper.fragments.ProgramViewFragmentDirections
 import com.example.gymhelper.R
 import com.example.gymhelper.databinding.FragmentProgramViewBinding
-import com.example.gymhelper.db.ExcersizeDatabase
 import com.example.gymhelper.viewmodel.ProgramViewViewModel
-import com.example.gymhelper.viewmodel.ProgramViewViewModelFactory
+import com.example.gymhelper.factories.ProgramViewViewModelFactory
 
 /**
  * A simple [Fragment] subclass.
  */
 class ProgramViewFragment : Fragment() {
 
+    private lateinit var binding: FragmentProgramViewBinding
     private lateinit var viewModel: ProgramViewViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val binding: FragmentProgramViewBinding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_program_view, container, false)
         val application = requireNotNull(this.activity).application
-        val db = ExcersizeDatabase.getInstance(application)
 
-        val viewModelFactory =
-            ProgramViewViewModelFactory(
-                db,
-                application
-            )
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProgramViewViewModel::class.java)
-        binding.viewModel = viewModel
+        initViewModel(application)
+        initBinding(inflater, container)
+        initObservables(application)
 
+        return binding.root
+    }
+
+    private fun initObservables(application: Application) {
         viewModel.curTrainingProgram.observe(viewLifecycleOwner, Observer {
             val trainingDays = it.trainingDays
             val daysList = trainingDays.map { it.Day }
@@ -64,10 +61,21 @@ class ProgramViewFragment : Fragment() {
                 )
                 false }
         })
+    }
 
-        binding.setLifecycleOwner(this)
+    private fun initBinding(inflater: LayoutInflater, container: ViewGroup?) {
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_program_view, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+    }
 
-        return binding.root
+    private fun initViewModel(application: Application) {
+        val viewModelFactory =
+            ProgramViewViewModelFactory(
+                application
+            )
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProgramViewViewModel::class.java)
     }
 
     override fun onResume() {

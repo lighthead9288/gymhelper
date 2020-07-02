@@ -10,13 +10,12 @@ import com.example.gymhelper.databinding.PhotoItemBinding
 class PhotosAdapter : ListAdapter<String, PhotosAdapter.PhotoViewHolder>(
     DiffCallback
 ) {
-
     /**
      * The MarsPropertyViewHolder constructor takes the binding variable from the associated
      * GridViewItem, which nicely gives it access to the full [MarsProperty] information.
      */
-    class PhotoViewHolder(private var binding: PhotoItemBinding):
-        RecyclerView.ViewHolder(binding.root) {
+    class PhotoViewHolder(private var binding: PhotoItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(path: String) {
             binding.path = path
             // This is important, because it forces the data binding to execute immediately,
@@ -43,7 +42,8 @@ class PhotosAdapter : ListAdapter<String, PhotosAdapter.PhotoViewHolder>(
      * Create new [RecyclerView] item views (invoked by the layout manager)
      */
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): PhotoViewHolder {
+                                    viewType: Int
+    ): PhotoViewHolder {
         return PhotoViewHolder(
             PhotoItemBinding.inflate(LayoutInflater.from(parent.context))
         )

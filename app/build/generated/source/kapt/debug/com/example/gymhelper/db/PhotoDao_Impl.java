@@ -6,6 +6,8 @@ import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Long;
 import java.lang.Override;
@@ -14,15 +16,15 @@ import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class PhotoDao_Impl implements PhotoDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfPhoto;
+  private final EntityInsertionAdapter<Photo> __insertionAdapterOfPhoto;
 
-  private final EntityDeletionOrUpdateAdapter __deletionAdapterOfPhoto;
+  private final EntityDeletionOrUpdateAdapter<Photo> __deletionAdapterOfPhoto;
 
-  private final EntityDeletionOrUpdateAdapter __updateAdapterOfPhoto;
+  private final EntityDeletionOrUpdateAdapter<Photo> __updateAdapterOfPhoto;
 
   private final SharedSQLiteStatement __preparedStmtOfClear;
 
@@ -31,7 +33,7 @@ public final class PhotoDao_Impl implements PhotoDao {
     this.__insertionAdapterOfPhoto = new EntityInsertionAdapter<Photo>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `Photos`(`PhotoId`,`Path`) VALUES (nullif(?, 0),?)";
+        return "INSERT OR ABORT INTO `Photos` (`PhotoId`,`Path`) VALUES (nullif(?, 0),?)";
       }
 
       @Override
@@ -82,7 +84,8 @@ public final class PhotoDao_Impl implements PhotoDao {
   }
 
   @Override
-  public Long insert(Photo photo) {
+  public Long insert(final Photo photo) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       long _result = __insertionAdapterOfPhoto.insertAndReturnId(photo);
@@ -94,7 +97,8 @@ public final class PhotoDao_Impl implements PhotoDao {
   }
 
   @Override
-  public int delete(Photo photo) {
+  public int delete(final Photo photo) {
+    __db.assertNotSuspendingTransaction();
     int _total = 0;
     __db.beginTransaction();
     try {
@@ -107,7 +111,8 @@ public final class PhotoDao_Impl implements PhotoDao {
   }
 
   @Override
-  public void update(Photo photo) {
+  public void update(final Photo photo) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __updateAdapterOfPhoto.handle(photo);
@@ -119,6 +124,7 @@ public final class PhotoDao_Impl implements PhotoDao {
 
   @Override
   public void clear() {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfClear.acquire();
     __db.beginTransaction();
     try {
@@ -131,7 +137,7 @@ public final class PhotoDao_Impl implements PhotoDao {
   }
 
   @Override
-  public Photo get(Long id) {
+  public Photo get(final Long id) {
     final String _sql = "SELECT * FROM Photos WHERE PhotoId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
@@ -140,10 +146,11 @@ public final class PhotoDao_Impl implements PhotoDao {
     } else {
       _statement.bindLong(_argIndex, id);
     }
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfPhotoId = _cursor.getColumnIndexOrThrow("PhotoId");
-      final int _cursorIndexOfPath = _cursor.getColumnIndexOrThrow("Path");
+      final int _cursorIndexOfPhotoId = CursorUtil.getColumnIndexOrThrow(_cursor, "PhotoId");
+      final int _cursorIndexOfPath = CursorUtil.getColumnIndexOrThrow(_cursor, "Path");
       final Photo _result;
       if(_cursor.moveToFirst()) {
         final long _tmpPhotoId;
@@ -165,10 +172,11 @@ public final class PhotoDao_Impl implements PhotoDao {
   public List<Photo> getAll() {
     final String _sql = "SELECT * FROM Photos";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfPhotoId = _cursor.getColumnIndexOrThrow("PhotoId");
-      final int _cursorIndexOfPath = _cursor.getColumnIndexOrThrow("Path");
+      final int _cursorIndexOfPhotoId = CursorUtil.getColumnIndexOrThrow(_cursor, "PhotoId");
+      final int _cursorIndexOfPath = CursorUtil.getColumnIndexOrThrow(_cursor, "Path");
       final List<Photo> _result = new ArrayList<Photo>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final Photo _item;

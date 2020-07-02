@@ -13,8 +13,14 @@ import com.example.gymhelper.db.Excersize
 import com.example.gymhelper.db.TrainingProgramDay
 import com.example.gymhelper.model.TrainingDay
 
-class ProgramViewExpandableListAdapter internal constructor(val context: Context, val groups: List<TrainingProgramDay>,
-                                                            val trainingDays:List<TrainingDay>, val dayLayout: Int, val excersizeLayout: Int): BaseExpandableListAdapter() {
+class ProgramViewExpandableListAdapter internal constructor(
+    val context: Context,
+    val groups: List<TrainingProgramDay>,
+    val trainingDays:List<TrainingDay>,
+    val dayLayout: Int,
+    val excersizeLayout: Int
+) : BaseExpandableListAdapter() {
+
     override fun getGroup(groupPosition: Int): Any {
         return groups.get(groupPosition)
     }
@@ -37,7 +43,8 @@ class ProgramViewExpandableListAdapter internal constructor(val context: Context
         var convertView = convertView
         val listTitle = getGroup(groupPosition) as TrainingProgramDay
         if (convertView == null) {
-            val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val layoutInflater
+                    = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(dayLayout, null)
         }
         val expListView = parent as ExpandableListView
@@ -68,18 +75,21 @@ class ProgramViewExpandableListAdapter internal constructor(val context: Context
         isLastChild: Boolean,
         convertView: View?,
         parent: ViewGroup?
-    ): View {
+    ): View? {
         var convertView = convertView
         val child = getChild(groupPosition, childPosition) as Excersize
         if (convertView == null) {
-            val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val layoutInflater
+                    = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(excersizeLayout, null)
         }
 
-        val exNameTv = convertView!!.findViewById<TextView>(R.id.programExpandableListExcercizeName)
-        exNameTv.text = child.Name
-        val exGroupTv = convertView!!.findViewById<TextView>(R.id.programExpandableListExcercizeGroup)
-        exGroupTv.text = child.Group
+        val exNameTv
+                = convertView?.findViewById<TextView>(R.id.programExpandableListExcercizeName)
+        exNameTv?.text = child.Name
+        val exGroupTv
+                = convertView?.findViewById<TextView>(R.id.programExpandableListExcercizeGroup)
+        exGroupTv?.text = child.Group
 
         return convertView
     }

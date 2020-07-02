@@ -13,8 +13,15 @@ import com.example.gymhelper.R
 import com.example.gymhelper.db.Excersize
 import com.example.gymhelper.model.ExcersizeGroup
 
-class ExcersizesListExpandableListAdapter internal constructor(val context: Context, val groups: List<String>, val groupedExcersizes: List<ExcersizeGroup>,
-    val groupLayout:Int, val excersizesLayout: Int, val curDayExcersizes: MutableList<Excersize>, val excersizeCheckingCallback: (exId: Long, selected: Boolean)->Unit): BaseExpandableListAdapter() {
+class ExcersizesListExpandableListAdapter internal constructor(
+    val context: Context,
+    val groups: List<String>,
+    val groupedExcersizes: List<ExcersizeGroup>,
+    val groupLayout:Int,
+    val excersizesLayout: Int,
+    val curDayExcersizes: List<Excersize>,
+    val excersizeCheckingCallback: (exId: Long, selected: Boolean)->Unit
+) : BaseExpandableListAdapter() {
     override fun getGroup(groupPosition: Int): Any {
         return groups.get(groupPosition)
     }
@@ -36,7 +43,8 @@ class ExcersizesListExpandableListAdapter internal constructor(val context: Cont
         var convertView = convertView
         val listTitle = getGroup(groupPosition) as String
         if (convertView == null) {
-            val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val layoutInflater
+                    = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(groupLayout, null)
         }
 
@@ -70,38 +78,36 @@ class ExcersizesListExpandableListAdapter internal constructor(val context: Cont
         isLastChild: Boolean,
         convertView: View?,
         parent: ViewGroup?
-    ): View {
+    ): View? {
         var convertView = convertView
         val child = getChild(groupPosition, childPosition) as Excersize
         if (convertView == null) {
-            val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val layoutInflater
+                    = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(excersizesLayout, null)
         }
 
-        val exNameTv = convertView!!.findViewById<TextView>(R.id.exNameTv)
-        exNameTv.text = child.Name
+        val exNameTv = convertView?.findViewById<TextView>(R.id.exNameTv)
+        exNameTv?.text = child.Name
 
-        val subgroupTv = convertView!!.findViewById<TextView>(R.id.exSubGroupTv)
-        subgroupTv.text = child.Group
+        val subgroupTv = convertView?.findViewById<TextView>(R.id.exSubGroupTv)
+        subgroupTv?.text = child.Group
 
-        val levelTv = convertView!!.findViewById<TextView>(R.id.exLevelTv)
-        levelTv.text = child.Level
+        val levelTv = convertView?.findViewById<TextView>(R.id.exLevelTv)
+        levelTv?.text = child.Level
 
-        val inCurDayCb = convertView!!.findViewById<CheckBox>(R.id.inCurDayCb)
+        val inCurDayCb = convertView?.findViewById<CheckBox>(R.id.inCurDayCb)
 
-        inCurDayCb.isChecked = false
+        inCurDayCb?.isChecked = false
 
         val exIds = curDayExcersizes.map { it.ExcersizeId }
 
         if (exIds.contains(child.ExcersizeId))
-            inCurDayCb.isChecked = true
-        //inCurDayCb.setOnCheckedChangeListener { buttonView, isChecked -> excersizeCheckingCallback(child.ExcersizeId, isChecked)}
+            inCurDayCb?.isChecked = true
 
-        inCurDayCb.setOnClickListener {
+        inCurDayCb?.setOnClickListener {
             excersizeCheckingCallback(child.ExcersizeId, inCurDayCb.isChecked)
         }
-
-
 
         return convertView
     }

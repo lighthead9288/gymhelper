@@ -6,6 +6,8 @@ import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
+import androidx.room.util.CursorUtil;
+import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Long;
 import java.lang.Override;
@@ -14,15 +16,15 @@ import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public final class TrainingProgramDao_Impl implements TrainingProgramDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfTrainingProgram;
+  private final EntityInsertionAdapter<TrainingProgram> __insertionAdapterOfTrainingProgram;
 
-  private final EntityDeletionOrUpdateAdapter __deletionAdapterOfTrainingProgram;
+  private final EntityDeletionOrUpdateAdapter<TrainingProgram> __deletionAdapterOfTrainingProgram;
 
-  private final EntityDeletionOrUpdateAdapter __updateAdapterOfTrainingProgram;
+  private final EntityDeletionOrUpdateAdapter<TrainingProgram> __updateAdapterOfTrainingProgram;
 
   private final SharedSQLiteStatement __preparedStmtOfClear;
 
@@ -31,7 +33,7 @@ public final class TrainingProgramDao_Impl implements TrainingProgramDao {
     this.__insertionAdapterOfTrainingProgram = new EntityInsertionAdapter<TrainingProgram>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `TrainingPrograms`(`TrainingProgramId`,`Name`) VALUES (nullif(?, 0),?)";
+        return "INSERT OR ABORT INTO `TrainingPrograms` (`TrainingProgramId`,`Name`) VALUES (nullif(?, 0),?)";
       }
 
       @Override
@@ -82,7 +84,8 @@ public final class TrainingProgramDao_Impl implements TrainingProgramDao {
   }
 
   @Override
-  public Long insert(TrainingProgram trainingProgram) {
+  public Long insert(final TrainingProgram trainingProgram) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       long _result = __insertionAdapterOfTrainingProgram.insertAndReturnId(trainingProgram);
@@ -94,7 +97,8 @@ public final class TrainingProgramDao_Impl implements TrainingProgramDao {
   }
 
   @Override
-  public int delete(TrainingProgram trainingProgram) {
+  public int delete(final TrainingProgram trainingProgram) {
+    __db.assertNotSuspendingTransaction();
     int _total = 0;
     __db.beginTransaction();
     try {
@@ -107,7 +111,8 @@ public final class TrainingProgramDao_Impl implements TrainingProgramDao {
   }
 
   @Override
-  public void update(TrainingProgram trainingProgram) {
+  public void update(final TrainingProgram trainingProgram) {
+    __db.assertNotSuspendingTransaction();
     __db.beginTransaction();
     try {
       __updateAdapterOfTrainingProgram.handle(trainingProgram);
@@ -119,6 +124,7 @@ public final class TrainingProgramDao_Impl implements TrainingProgramDao {
 
   @Override
   public void clear() {
+    __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfClear.acquire();
     __db.beginTransaction();
     try {
@@ -131,15 +137,16 @@ public final class TrainingProgramDao_Impl implements TrainingProgramDao {
   }
 
   @Override
-  public TrainingProgram get(long id) {
+  public TrainingProgram get(final long id) {
     final String _sql = "SELECT *FROM TrainingPrograms WHERE TrainingProgramId=?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, id);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfTrainingProgramId = _cursor.getColumnIndexOrThrow("TrainingProgramId");
-      final int _cursorIndexOfName = _cursor.getColumnIndexOrThrow("Name");
+      final int _cursorIndexOfTrainingProgramId = CursorUtil.getColumnIndexOrThrow(_cursor, "TrainingProgramId");
+      final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "Name");
       final TrainingProgram _result;
       if(_cursor.moveToFirst()) {
         final long _tmpTrainingProgramId;
@@ -161,10 +168,11 @@ public final class TrainingProgramDao_Impl implements TrainingProgramDao {
   public List<TrainingProgram> getAll() {
     final String _sql = "SELECT *FROM TrainingPrograms";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    final Cursor _cursor = __db.query(_statement);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
-      final int _cursorIndexOfTrainingProgramId = _cursor.getColumnIndexOrThrow("TrainingProgramId");
-      final int _cursorIndexOfName = _cursor.getColumnIndexOrThrow("Name");
+      final int _cursorIndexOfTrainingProgramId = CursorUtil.getColumnIndexOrThrow(_cursor, "TrainingProgramId");
+      final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "Name");
       final List<TrainingProgram> _result = new ArrayList<TrainingProgram>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final TrainingProgram _item;

@@ -4,18 +4,17 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.gymhelper.SharedPrefs
+import com.example.gymhelper.utils.SharedPrefs
 import com.example.gymhelper.db.*
 import com.example.gymhelper.model.ExcersizeGroup
 import com.example.gymhelper.model.ExcersizesByGroups
 import kotlinx.coroutines.*
 
-class ProfileEditViewModel(private val trainingProfileId: Long, private val db: ExcersizeDatabase, val application: Application): ViewModel() {
+class ProfileEditViewModel(private val trainingProfileId: Long, val application: Application): ViewModel() {
 
+    private val db = ExcersizeDatabase.getInstance(application)
     private var viewModelJob = Job()
-
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
     private var sharedPrefs: SharedPrefs? = null
 
     private val _excersizesByGroups = MutableLiveData<ExcersizesByGroups>()
@@ -32,7 +31,6 @@ class ProfileEditViewModel(private val trainingProfileId: Long, private val db: 
 
     init {
         checkCurTrainingProfileSelection()
-       // getCurTrainingProfile()
         getAllExcersizes()
     }
 
@@ -52,7 +50,6 @@ class ProfileEditViewModel(private val trainingProfileId: Long, private val db: 
         uiScope.launch {
             addExcersizeToTrainingProfile(ex)
         }
-
     }
 
     fun onExcersizeUnchecked(trainingProfileId: Long, excersizeId: Long) {
@@ -60,13 +57,6 @@ class ProfileEditViewModel(private val trainingProfileId: Long, private val db: 
             deleteExcersizeFromTrainingProfile(trainingProfileId, excersizeId)
         }
     }
-
-
-   /* fun getCurTrainingProfile() {
-        uiScope.launch {
-            _curTrainingProfile.value = getCurProfileExcersizesFromDb()
-        }
-    }*/
 
     fun getAllExcersizes() {
         uiScope.launch {

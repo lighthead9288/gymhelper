@@ -3,7 +3,6 @@ package com.example.gymhelper.db
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -11,8 +10,18 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.gymhelper.R
 import java.io.*
 
-@Database(entities = [Excersize::class, Photo::class, ExcersizePhoto::class, TrainingProgram::class, TrainingProgramsExcersizes::class, TrainingProgramDay::class,
-    TrainingProfile::class, TrainingProfileExcersize::class], version = 11)
+@Database(entities = [
+    Excersize::class,
+    Photo::class,
+    ExcersizePhoto::class,
+    TrainingProgram::class,
+    TrainingProgramsExcersizes::class,
+    TrainingProgramDay::class,
+    TrainingProfile::class,
+    TrainingProfileExcersize::class
+],
+    version = 11
+)
 abstract class ExcersizeDatabase: RoomDatabase() {
 
     abstract val excersizeDao:ExcersizeDao
@@ -32,7 +41,6 @@ abstract class ExcersizeDatabase: RoomDatabase() {
     abstract val trainingProfilesExcersizesDao: TrainingProfilesExcersizesDao
 
     companion object {
-
         @Volatile
         private var INSTANCE: ExcersizeDatabase? = null
 
@@ -44,7 +52,11 @@ abstract class ExcersizeDatabase: RoomDatabase() {
 
                 if (instance==null) {
 
-                    instance = Room.databaseBuilder(context.applicationContext, ExcersizeDatabase::class.java, "ExcersizeDatabase")
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        ExcersizeDatabase::class.java,
+                        "ExcersizeDatabase"
+                    )
                         .addCallback(object: Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
@@ -55,14 +67,13 @@ abstract class ExcersizeDatabase: RoomDatabase() {
                         .build()
 
                     INSTANCE = instance
-
                 }
-
 
                 return instance
             }
         }
 
+        //region prefill DB
         fun prefillDb(context: Context, db: ExcersizeDatabase) {
             val v = db.trainingProgramDao.getAll()
             var progId = db.trainingProgramDao.insert(TrainingProgram(Name = "Основная"))
@@ -296,15 +307,23 @@ abstract class ExcersizeDatabase: RoomDatabase() {
             for(ex in exs) {
                 db.trainingProfilesExcersizesDao.insert(TrainingProfileExcersize(trainingProfileId = profileId, excersizeId = ex.ExcersizeId))
             }
-
-
-
         }
+        //endregion
 
-        fun fillSingleExcersizeInfo(context: Context, db: ExcersizeDatabase, excersize: Excersize, photosResources: List<Int>):Long? {
+        fun fillSingleExcersizeInfo(
+            context: Context,
+            db: ExcersizeDatabase,
+            excersize: Excersize,
+            photosResources: List<Int>
+        ):Long? {
             val exId = db.excersizeDao.insert(excersize)
             for (res in photosResources) {
-                val imgPath = saveImageToFolder(context, res , context.getResources().getResourceEntryName(res))
+                val imgPath = saveImageToFolder(
+                    context,
+                    res ,
+                    context.getResources().
+                    getResourceEntryName(res)
+                )
                 val photoId = db.photoDao.insert(Photo(path=imgPath))
                 db.excercizePhotoDao.insert(ExcersizePhoto(excersizeId = exId, photoId = photoId))
             }

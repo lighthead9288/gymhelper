@@ -216,7 +216,7 @@ public class FragmentExcersizeViewBindingImpl extends FragmentExcersizeViewBindi
         if ((dirtyFlags & 0xeL) != 0) {
             // api target 1
 
-            com.example.gymhelper.BindingAdaptersKt.bindRecyclerView(this.photosRv, excersizeViewViewModelPhotosGetValue);
+            com.example.gymhelper.utils.BindingAdaptersKt.bindRecyclerView(this.photosRv, excersizeViewViewModelPhotosGetValue);
         }
     }
     // Listener Stub Implementations

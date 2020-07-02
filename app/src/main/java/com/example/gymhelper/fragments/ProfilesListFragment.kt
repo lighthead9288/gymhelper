@@ -1,6 +1,7 @@
 package com.example.gymhelper.fragments
 
 import android.app.AlertDialog
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,9 +16,8 @@ import com.example.gymhelper.adapters.DeleteProfileClickListener
 import com.example.gymhelper.adapters.ProfileListClickListener
 import com.example.gymhelper.adapters.ProfilesListAdapter
 import com.example.gymhelper.databinding.FragmentProfilesListBinding
-import com.example.gymhelper.db.ExcersizeDatabase
 import com.example.gymhelper.viewmodel.ProfilesListViewModel
-import com.example.gymhelper.viewmodel.ProfilesListViewModelFactory
+import com.example.gymhelper.factories.ProfilesListViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add_dialog.view.*
 
 /**
@@ -25,28 +25,37 @@ import kotlinx.android.synthetic.main.fragment_add_dialog.view.*
  */
 class ProfilesListFragment : Fragment() {
 
+    private lateinit var binding: FragmentProfilesListBinding
     private lateinit var viewModel: ProfilesListViewModel
+    private lateinit var profilesListAdapter: ProfilesListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val binding = FragmentProfilesListBinding.inflate(inflater)
         val application = requireNotNull(this.activity).application
-        val dataSource = ExcersizeDatabase.getInstance(application)
 
-        val viewModelFactory =
-            ProfilesListViewModelFactory(
-                dataSource,
-                application
-            )
+        initViewModel(application)
+        initBinding(inflater, application)
+        initObservables()
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProfilesListViewModel::class.java)
+        // Inflate the layout for this fragment
+        return binding.root
+    }
 
+    private fun initObservables() {
+        viewModel.trainingProfilesList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                profilesListAdapter.submitList(it)
+            }
+        })
+    }
+
+    private fun initBinding(inflater: LayoutInflater, application: Application) {
+        binding = FragmentProfilesListBinding.inflate(inflater)
         binding.viewModel = viewModel
 
-        val adapter =
+        profilesListAdapter =
             ProfilesListAdapter(
                 ProfileListClickListener {
                     this.findNavController().navigate(
@@ -58,18 +67,19 @@ class ProfilesListFragment : Fragment() {
                 DeleteProfileClickListener {
                     viewModel.deleteTrainingProfile(it.trainingProfile)
                 })
-        binding.profilesListRv.adapter = adapter
-        binding.profilesListRv.addItemDecoration(DividerItemDecoration(application, DividerItemDecoration.VERTICAL))
-
-        viewModel.trainingProfilesList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.submitList(it)
-            }
-        })
+        binding.profilesListRv.adapter = profilesListAdapter
+        binding.profilesListRv.addItemDecoration(
+            DividerItemDecoration(
+                application,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         binding.addProfileFb.setOnClickListener {
-            val dialogView = LayoutInflater.from(context).inflate(R.layout.fragment_add_dialog,null)
-
+            val dialogView = LayoutInflater.from(context).inflate(
+                R.layout.fragment_add_dialog,
+                null
+            )
             val builder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
             val alertDialog = builder.show()
 
@@ -83,15 +93,22 @@ class ProfilesListFragment : Fragment() {
             }
         }
 
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
 
-        // Inflate the layout for this fragment
-        return binding.root
+    }
+
+    private fun initViewModel(application: Application) {
+        val viewModelFactory =
+            ProfilesListViewModelFactory(
+                application
+            )
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(
+            ProfilesListViewModel::class.java
+        )
     }
 
     override fun onResume() {
         super.onResume()
-
         viewModel.getTrainingProfiles()
     }
 

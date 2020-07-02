@@ -11,30 +11,28 @@ import com.example.gymhelper.model.ExcersizeGroup
 import com.example.gymhelper.model.ExcersizesByGroups
 import kotlinx.coroutines.*
 
-class ExcersizesListViewModel(private val trainingDayId: Long, private val excersizes:MutableList<Excersize>,
-                              private val db: ExcersizeDatabase, private val application: Application): ViewModel() {
+class ExcersizesListViewModel(
+    private val trainingDayId: Long,
+    private val application: Application
+) : ViewModel() {
 
+    private val db: ExcersizeDatabase = ExcersizeDatabase.getInstance(application)
     private var viewModelJob = Job()
-
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     val excersizesByGroups: LiveData<ExcersizesByGroups>
-    get() = _excersizesByGroups
+        get() = _excersizesByGroups
 
     var _excersizesByGroups = MutableLiveData<ExcersizesByGroups>()
 
     val _dayName = MutableLiveData<String>()
     val dayName: LiveData<String>
-    get() = _dayName
+        get() = _dayName
 
     init {
         getTrainingDay()
         getAllExcersizes()
     }
-
-   /* fun changeTrainingDayName() {
-        val name = dayName.value
-    }*/
 
     fun getAllExcersizes() {
         uiScope.launch {
@@ -46,7 +44,6 @@ class ExcersizesListViewModel(private val trainingDayId: Long, private val excer
         uiScope.launch {
             _dayName.value = getCurTrainingDay()
         }
-
     }
 
     fun onExcersizeChecked(trainingDayId: Long, excersizeId: Long) {
@@ -70,7 +67,9 @@ class ExcersizesListViewModel(private val trainingDayId: Long, private val excer
         }
     }
 
-    private suspend fun addExcersizeToTrainingProgram(trainingProgramExcersize: TrainingProgramsExcersizes) {
+    private suspend fun addExcersizeToTrainingProgram(
+        trainingProgramExcersize: TrainingProgramsExcersizes
+    ) {
         withContext(Dispatchers.IO) {
             db.trainingProgramsExcercizesDao.insert(trainingProgramExcersize)
         }
@@ -78,8 +77,8 @@ class ExcersizesListViewModel(private val trainingDayId: Long, private val excer
 
     private suspend fun deleteExcersizeFromTrainingProgram(trainingDayId: Long, excersizeId: Long) {
         withContext(Dispatchers.IO) {
-            val trProgrEx = db.trainingProgramsExcercizesDao.getDayExcersizeById(trainingDayId, excersizeId)
-           // val rows = db.trainingProgramsExcercizesDao.deleteExersizeFromTrainingProgram(trainingProgramId, excersizeId)
+            val trProgrEx
+                    = db.trainingProgramsExcercizesDao.getDayExcersizeById(trainingDayId, excersizeId)
             db.trainingProgramsExcercizesDao.delete(trProgrEx)
         }
     }
@@ -91,7 +90,7 @@ class ExcersizesListViewModel(private val trainingDayId: Long, private val excer
 
             val groupedExcersizes = mutableListOf<ExcersizeGroup>()
             for (group in groups) {
-                val curGroupExs = excersizes.filter { x->x.Group==group }
+                val curGroupExs = excersizes.filter { x -> x.Group==group }
                 groupedExcersizes.add(ExcersizeGroup(group, curGroupExs))
             }
 

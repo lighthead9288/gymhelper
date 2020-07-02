@@ -1,6 +1,7 @@
 package com.example.gymhelper.fragments
 
 import android.app.AlertDialog
+import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,14 +13,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.gymhelper.adapters.ProgramEditExpandableListAdapter
-import com.example.gymhelper.fragments.ProgramEditFragmentArgs
-import com.example.gymhelper.fragments.ProgramEditFragmentDirections
 import com.example.gymhelper.R
-import com.example.gymhelper.databinding.FragmentProfileEditBinding
 import com.example.gymhelper.databinding.FragmentProgramEditBinding
-import com.example.gymhelper.db.ExcersizeDatabase
 import com.example.gymhelper.viewmodel.ProgramEditViewModel
-import com.example.gymhelper.viewmodel.ProgramEditViewModelFactory
+import com.example.gymhelper.factories.ProgramEditViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add_dialog.view.*
 
 /**
@@ -27,34 +24,31 @@ import kotlinx.android.synthetic.main.fragment_add_dialog.view.*
  */
 class ProgramEditFragment : Fragment() {
 
+    private lateinit var binding: FragmentProgramEditBinding
     private lateinit var viewModel: ProgramEditViewModel
+    private var trainingProgramId: Long = 0
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val binding: FragmentProgramEditBinding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_program_edit, container, false)
         val application = requireNotNull(this.activity).application
-        val db = ExcersizeDatabase.getInstance(application)
-
         val arguments =
             ProgramEditFragmentArgs.fromBundle(
-                arguments!!
+                requireArguments()
             )
-        val trainingProgramId = arguments?.trainingProgramId
+        trainingProgramId = arguments.trainingProgramId
 
-        val viewModelFactory =
-            ProgramEditViewModelFactory(
-                trainingProgramId,
-                db,
-                application
-            )
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProgramEditViewModel::class.java)
-        binding.programEditViewModel = viewModel
+        initViewModel(application)
+        initBinding(inflater, container)
+        initObservables(application)
 
+        // Inflate the layout for this fragment
+        return binding.root
+    }
 
+    private fun initObservables(application: Application) {
         viewModel.curTrainingProgram.observe(viewLifecycleOwner, Observer {
             val trainingDays = it.trainingDays
             val daysList = trainingDays.map { it.Day }
@@ -68,12 +62,11 @@ class ProgramEditFragment : Fragment() {
                     R.layout.programs_expandable_list_child_layout,
                     { trainingDayId ->
                         viewModel.deleteTrainingDay(trainingDayId)
-                        //viewModel.getCurTrainingProgram()
                     },
                     { trainingDayId, groupPosition ->
                         findNavController().navigate(
                             ProgramEditFragmentDirections.actionProgramEditFragmentToExcersizesListFragment(
-                                trainingDays.get(groupPosition).Excercizes.toTypedArray(),
+                                trainingDays[groupPosition].Excercizes.toTypedArray(),
                                 trainingDayId
                             )
                         )
@@ -82,31 +75,29 @@ class ProgramEditFragment : Fragment() {
 
             binding.curProgramEdLv.setAdapter(adapter)
             binding.curProgramEdLv.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-                    findNavController().navigate(
-                        ProgramEditFragmentDirections.actionProgramEditFragmentToExcersizesListFragment(
-                            trainingDays.get(groupPosition).Excercizes.toTypedArray(),
-                            daysList.get(groupPosition).TrainingProgramDayId!!.toLong()
-                        )
+                findNavController().navigate(
+                    ProgramEditFragmentDirections.actionProgramEditFragmentToExcersizesListFragment(
+                        trainingDays[groupPosition].Excercizes.toTypedArray(),
+                        daysList[groupPosition].TrainingProgramDayId
                     )
-                    false }
+                )
+                false }
         })
 
         viewModel.newTrainingDay.observe(viewLifecycleOwner, Observer {
-           /* findNavController().navigate(ProgramEditFragmentDirections.actionProgramEditFragmentToExcersizesListFragment(
-                mutableListOf<Excersize>().toTypedArray(), it)) */
         })
+    }
 
-
-
-        binding.setLifecycleOwner(this)
-
-
-
+    private fun initBinding(inflater: LayoutInflater, container: ViewGroup?) {
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_program_edit, container, false)
+        binding.programEditViewModel = viewModel
         val addDayBtn = binding.root.findViewById<Button>(R.id.addDayBtn)
         addDayBtn.setOnClickListener {
-
-            val dialogView = LayoutInflater.from(context).inflate(R.layout.fragment_add_dialog, null)
-
+            val dialogView = LayoutInflater.from(context).inflate(
+                R.layout.fragment_add_dialog,
+                null
+            )
             val builder = AlertDialog.Builder(context).setView(dialogView).setTitle("")
             val alertDialog = builder.show()
 
@@ -120,11 +111,18 @@ class ProgramEditFragment : Fragment() {
             }
 
         }
+        binding.lifecycleOwner = this
+    }
 
-
-
-        // Inflate the layout for this fragment
-        return binding.root
+    private fun initViewModel(application: Application) {
+        val viewModelFactory =
+            ProgramEditViewModelFactory(
+                trainingProgramId,
+                application
+            )
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(
+            ProgramEditViewModel::class.java
+        )
     }
 
     override fun onResume() {
