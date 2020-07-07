@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.gymhelper.adapters.ExcersizesListExpandableListAdapter
@@ -93,7 +94,7 @@ class ExcersizesListFragment : Fragment() {
                 trainingDayId,
                 application
             )
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ExcersizesListViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ExcersizesListViewModel::class.java)
     }
 
     override fun onResume() {

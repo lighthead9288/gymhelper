@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.gymhelper.adapters.ProgramEditExpandableListAdapter
@@ -120,7 +121,7 @@ class ProgramEditFragment : Fragment() {
                 trainingProgramId,
                 application
             )
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(
+        viewModel = ViewModelProvider(this, viewModelFactory).get(
             ProgramEditViewModel::class.java
         )
     }

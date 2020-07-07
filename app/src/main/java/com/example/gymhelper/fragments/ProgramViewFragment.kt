@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.gymhelper.adapters.ProgramViewExpandableListAdapter
@@ -75,7 +76,7 @@ class ProgramViewFragment : Fragment() {
             ProgramViewViewModelFactory(
                 application
             )
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProgramViewViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ProgramViewViewModel::class.java)
     }
 
     override fun onResume() {

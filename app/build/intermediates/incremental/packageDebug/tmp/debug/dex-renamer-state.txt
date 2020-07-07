@@ -1,4 +1,4 @@
-#Thu Jul 02 21:52:04 MSK 2020
+#Tue Jul 07 20:11:48 MSK 2020
 base.0=/home/lighthead/AndroidStudioProjects/gymhelper/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

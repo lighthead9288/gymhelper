@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -102,7 +103,7 @@ class ProfilesListFragment : Fragment() {
             ProfilesListViewModelFactory(
                 application
             )
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(
+        viewModel = ViewModelProvider(this, viewModelFactory).get(
             ProfilesListViewModel::class.java
         )
     }

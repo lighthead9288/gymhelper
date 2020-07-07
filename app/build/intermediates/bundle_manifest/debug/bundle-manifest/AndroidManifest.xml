@@ -19,7 +19,6 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/dumbbells"
         android:supportsRtl="true"
-        android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity android:name="com.example.gymhelper.activities.MainActivity" >
             <intent-filter>
